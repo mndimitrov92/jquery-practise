@@ -84,6 +84,12 @@
       $(".content_instance:eq(1)").css("border", "2px solid yellow");
       // Add border to the first and third rose sections
       $(".content_instance:even").css("border", "2px solid lightblue");
+      // Display the number of flower images on the page with an alert
+      alert($('img[src*=image]').length);
+      // Hide the current image using slideUp when the mouse is moved over the image
+      $('img[src*=image]').hover(function(){
+        $(this).slideUp(1000);
+      });
     });
   </script>
 </body>
