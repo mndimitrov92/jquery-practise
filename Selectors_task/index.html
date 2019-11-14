@@ -90,6 +90,13 @@
       $('img[src*=image]').hover(function(){
         $(this).slideUp(1000);
       });
+      // Display the content of the first subheading "Rose in different colors" with alert
+      alert($('.content_top').text());
+      // Change the content of all 4 subheadings to "New Heading"
+      $(".content_right > h2").text("New Heading");
+      // Remove the heading "Rose in different colors"
+      $(".content_top").empty();
+      // $(".content_top").remove(); <-- another way
     });
   </script>
 </body>
