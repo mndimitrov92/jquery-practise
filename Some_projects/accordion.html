@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion</title>
+    <style>
+        #accordion {
+            width: 400px;
+            margin: 0 auto;
+            border-bottom: 1px solid black;
+        }
+        #accordion h3 {
+            background-color: lightgray;
+            border: 1px solid black;
+            border-bottom: none;
+            margin: 0;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        #accordion h3:hover{
+            background-color: grey;
+        }
+
+        #accordion p {
+            background-color: lightskyblue;
+            border: 1px solid black;
+            margin: 0;
+            border-bottom: none;
+            border-top: none;
+            padding: 10px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#accordion p:not(:first)").hide();
+            $("#accordion h3").click(function(){
+                $(this).next().slideToggle(600).siblings("p:visible").slideUp(500);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id ="accordion">
+    <h3>First Section</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate fugiat error est earum magni tempore inventore aspernatur facere non rem, esse ratione ad. Id a expedita corporis perspiciatis temporibus! Deserunt!</p>
+    <h3>Second Section</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate fugiat error est earum magni tempore inventore aspernatur facere non rem, esse ratione ad. Id a expedita corporis perspiciatis temporibus! Deserunt!</p>
+    <h3>Third Section</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate fugiat error est earum magni tempore inventore aspernatur facere non rem, esse ratione ad. Id a expedita corporis perspiciatis temporibus! Deserunt!</p>
+    <h3>Fourth Section</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate fugiat error est earum magni tempore inventore aspernatur facere non rem, esse ratione ad. Id a expedita corporis perspiciatis temporibus! Deserunt!</p>
+    <h3>Fifth Section</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate fugiat error est earum magni tempore inventore aspernatur facere non rem, esse ratione ad. Id a expedita corporis perspiciatis temporibus! Deserunt!</p>
+    </div>
+</body>
+</html>
