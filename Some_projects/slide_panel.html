@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Panel</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn").click(function () {
+                $("#panel").slideToggle("slow");
+            });
+        });
+    </script>
+    <style>
+        body {
+            margin: 0 auto;
+            width: 500px;
+        }
+
+        #panel {
+            background-color: burlywood;
+            height: 200px;
+            display: none;
+            border-bottom: 2px solid grey;
+            border: 5px solid red;
+        }
+
+        #btn {
+            background-color: cornflowerblue;
+            width: 30%;
+            margin: 0 auto;
+            text-align: center;
+            border-radius: 7%;
+            height: 2em;
+            padding: 10px;
+            vertical-align: middle;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <di id="panel">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Velit repellat eos, provident et quasi voluptate impedit cumque tempora
+        doloremque eius fuga incidunt iusto aspernatur sit obcaecati cum nesciunt
+        neque eligendi!
+    </di>
+    <p id="btn">Slide Up</p>
+</body>
+
+</html>

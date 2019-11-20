@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News clicker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    let interval;
+    function startTicker(){
+        $("#news li:first").slideUp(function(){
+            $(this).appendTo($("#news")).slideDown();
+        })
+    }
+
+    function stopClicker(){
+        clearInterval(interval);
+    }
+
+    $(document).ready(function(){
+        interval = setInterval(startTicker, 2000);
+        $("#news").hover(function(){
+            stopClicker();
+        }, function(){
+            interval = setInterval(startTicker, 2000);
+        }
+        );
+    });
+
+    </script>
+    <style>
+        #news li{
+            list-style-type: none;
+            text-align: justify;
+            border: 1px solid black;
+            height: 70px;
+        }
+        ul {
+            margin: 1px;
+            padding: 1px;
+        }
+        .clicker {
+            border: 2px solid cyan;
+            background-color: darkgrey;
+            width: 500px;
+            height: 360px;
+            overflow: hidden;
+            border-radius: 5px;
+            margin: 0 auto;
+            
+
+        }
+    </style>
+</head>
+<body>
+    <div class="clicker">
+        <ul id="news">
+            <li><b>FIRST</b> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat magni sed accusamus. Facere, cum eveniet nisi eum nam ipsa eos, quaerat vero mollitia voluptates ipsum delectus quidem necessitatibus velit voluptatibus!</li>
+            <li><b>SECOND</b> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat magni sed accusamus. Facere, cum eveniet nisi eum nam ipsa eos, quaerat vero mollitia voluptates ipsum delectus quidem necessitatibus velit voluptatibus!</li>
+            <li><b>THIRD</b> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat magni sed accusamus. Facere, cum eveniet nisi eum nam ipsa eos, quaerat vero mollitia voluptates ipsum delectus quidem necessitatibus velit voluptatibus!</li>
+            <li><b>FOURTH</b> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat magni sed accusamus. Facere, cum eveniet nisi eum nam ipsa eos, quaerat vero mollitia voluptates ipsum delectus quidem necessitatibus velit voluptatibus!</li>
+            <li><b>FIFTH</b> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat magni sed accusamus. Facere, cum eveniet nisi eum nam ipsa eos, quaerat vero mollitia voluptates ipsum delectus quidem necessitatibus velit voluptatibus!</li>
+        </ul>
+    </div>
+</body>
+</html>
