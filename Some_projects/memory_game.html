@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Memory game</title>
+    <style>
+        body {
+            background-color: grey;
+        }
+
+        .container {
+            margin: 0 auto;
+            width: 640px;
+            font: 20px Verdana;
+            color: #FFF;
+        }
+
+        #info {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .btn {
+            color: white;
+            background: black;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #items div {
+            float: left;
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            border: 4px solid black;
+            cursor: pointer;
+            border-radius: 10px;
+            color: white;
+            font-size: 0em;
+            /*3.5em;*/
+            text-align: center;
+            background-color: peru;
+            padding: 5px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        let options_arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+        let text_soource = "";
+        let div_id = "";
+        let items_found = 0;
+        let moves = 0;
+
+        // Shuffle the cards
+        function shuffle_items() {
+            var parent = $("#items");
+            var divs = parent.children();
+            while (divs.length) {
+                parent.append(divs.splice(Math.floor(Math.random() * divs.length), 1)[0]);
+            }
+        }
+
+        function reset_game(){
+            shuffle_items();
+            moves= 0;
+            $("#num_moves").html(moves);
+            $("#items div").css("fontSize", "0em");
+            items_found = 0;
+            div_id = "";
+            text_soource = "";
+        }
+
+        function open_card() {
+            let id = $(this).attr("id");
+            if (parseInt(($(this).css("fontSize"))) == 0) {
+                $(this).animate({
+                    "fontSize": "3.5em"
+                }, 500);
+                if (text_soource === "") {
+                    div_id = id;
+                    text_soource = $("#" + id).text();
+                } else {
+                    opened = $("#" + id).text();
+                    if (opened != text_soource) {
+                        $("#" + id).animate({
+                            "fontSize": "0em"
+                        }, 500);
+                        $("#" + div_id).animate({
+                            "fontSize": "0em"
+                        }, 500);
+                        div_id = "";
+                        text_soource = "";
+                    } else {
+                        div_id = "";
+                        text_soource = "";
+                        items_found += 1;
+                    }
+                }
+                moves += 1;
+                // Populate the move amount
+                $("#num_moves").html(Math.floor(moves / 2));
+                if (options_arr.length == items_found) {
+                    setTimeout(function () {
+                        alert("Game completed with " + moves + " moves!");
+                    }, 1000);
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            // Create the cards
+            for (let i = 1; i < 3; i += 1) {
+                $.each(options_arr, function (index, value) {
+                    $("#items").append("<div id=card" + i + index + ">" + value + "</div>");
+                })
+            }
+            shuffle_items();
+            $("#items div").click(open_card);
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="info">
+            <span class="moves">Moves: </span>
+            <span class="moves" id="num_moves">0</span>
+            <a class="btn" onclick="reset_game();">Reset</a>
+
+        </div>
+        <div id="items">
+
+        </div>
+    </div>
+</body>
+
+</html>
