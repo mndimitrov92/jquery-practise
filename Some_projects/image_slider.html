@@ -133,7 +133,7 @@
             gallery_width = gallery_width.slice(0, (gallery_width.length - 2));
             n_of_thumbs = gallery_width / thumb_width;
             let last_count = Math.floor(total_images - n_of_thumbs);
-            if (count == last_count){  // this needs fixing
+            if (count == last_count){ 
                 $("#right").addClass("disabled");
             }else {
                 $("#right").removeClass("disabled");
