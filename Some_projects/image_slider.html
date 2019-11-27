@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Image Slider</title>
+    <style>
+    #gallery-container {
+        margin: 0 auto;
+        width: 450px;
+        position: relative;
+    }
+    #upper-section {
+        height: 450px;
+        margin-bottom: 10px;
+    }
+
+    #upper-section img {
+         width: 100%;
+         position: absolute;
+    }
+
+    .thumb img{
+        width: 150px;
+        height: 120px;
+    }
+
+    .thumb {
+        white-space: nowrap;
+        padding: 2px;
+    }
+
+    .thumb img {
+        opacity: 0.4;
+    }
+
+    .thumb img:hover {
+        opacity: 1;
+    }
+
+    #lower-section {
+        overflow: hidden;
+    }
+
+    .arrow {
+        position: absolute;
+        font-size: 3em;
+        color:black;
+        text-decoration: none;
+    }
+
+    #left {
+        left: -60px;
+        bottom: 50px;
+    }
+    
+    #right {
+        right: -100px;
+        bottom: 40px;
+    }
+
+    #thumbs a {
+        display: inline;
+    }
+
+    .arrow.disabled{
+        display: none;
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        let images;
+        let thumb_width;
+        let count = 0;
+
+        let image_arr = [
+            "https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/355296/pexels-photo-355296.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/236047/pexels-photo-236047.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/355296/pexels-photo-355296.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/236047/pexels-photo-236047.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            "https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+        ];
+
+        $(document).ready(function(){
+            $.each(image_arr, function(index, value){
+                $("#upper-section").append("<img data-id='img" +index + "' src='" + value + "'/>");
+                $("#thumbs").append("<a href='#' class='thumb' data-id='img" + index + "'><img src='" + value + "' /></a>");
+            });
+
+            images = $("#upper-section").find("img");
+            thumb_width = $(".thumb").css("width");
+            thumb_width = thumb_width.slice(0, (thumb_width.length - 2));
+            // Enable - disable arrows
+            update_arrows();
+
+            // Thumb change
+            $(".thumb").on("click", function(){
+                let thumb_id = $(this).attr("data-id");
+                $.each(images, function(index, value){
+                    if (thumb_id == $(value).attr("data-id")){
+                        $(value).css("z-index", "1");
+                    } else {
+                        $(value).css("z-index", "-1");
+                    }
+                });
+            });
+
+            // Navigation
+            $(".arrow").on("click", function(){
+                let arrow_id = $(this).attr("id");
+                let scroll_string;
+                if (arrow_id === "left"){
+                    scroll_string = "+=";
+                    count--;
+                }
+                else {
+                    scroll_string = "-=";
+                    count++;
+                }
+                $("#thumbs").animate({marginLeft: scroll_string + thumb_width + "px"}, "fast", update_arrows);
+            });
+
+
+        });
+
+        function update_arrows(){
+            let total_images = images.length;
+            let gallery_width = $("#gallery-container").css("width");
+            gallery_width = gallery_width.slice(0, (gallery_width.length - 2));
+            n_of_thumbs = gallery_width / thumb_width;
+            let last_count = Math.floor(total_images - n_of_thumbs);
+            if (count == last_count){  // this needs fixing
+                $("#right").addClass("disabled");
+            }else {
+                $("#right").removeClass("disabled");
+            }
+
+            if (count == 0){
+                $("#left").addClass("disabled");
+            }else {
+                $("#left").removeClass("disabled");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="gallery-container">
+        <div id="upper-section">
+
+        </div>
+        <div id="lower-section">
+            <a href="#" class="arrow" id="left">&lt;</a>
+            <div id="thumbs"></div>
+            <a href="#" class="arrow" id="right">&gt;</a>
+        </div>
+    </div>
+</body>
+</html>
