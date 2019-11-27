@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tooltips</title>
+    <style>
+    body{
+        margin: 0 auto;
+        width: 80%;
+        line-height: 3em;
+    }
+    a {
+        text-decoration: none;
+        font-weight: bold;
+        color: cadetblue;
+        position: relative;
+    }
+
+    .tooltip {
+        display: none;
+        width: 100px;
+        height: 40px;
+        border-radius: 20px;
+        text-align: center;
+        background-color: green;
+        color: white;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -50%;
+        opacity: 0.5;
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("a").append("<span class='tooltip'></span>");
+            $("a").hover(function(){
+                let capital = $(this).attr("title");
+                $(this).find("span").fadeIn(1000).text(capital);
+            }, 
+            function(){
+                $(this).find("span").fadeOut(1000);
+            });
+        });
+    </script>
+</head>
+<body>
+    Some countries: <br/>
+    <a href="#" title="Sofia">Bulgaria</a> <br/>
+    <a href="#" title="Washington">USA</a> <br/>
+    <a href="#" title="London">UK</a> <br/>
+    <a href="#" title="Paris">France</a> <br/>
+</body>
+</html>
