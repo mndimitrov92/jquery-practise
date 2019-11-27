@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animated Graph</title>
+    <style>
+        /* General style */
+        .main{
+            margin: 25px auto;
+            width: 800px;
+        }
+
+        #left, #right {
+            float: left;
+            width: 50%;
+            margin-top: 60px;
+        }
+
+        #left {
+            text-align: center;
+        }
+
+        /* Table style */
+        table {
+            border: 1px solid black;
+            width: 75%;
+            margin: 20px auto;
+        }
+
+        th, td{
+            border: 1px solid black;
+            text-align: center;
+            padding: 6px;
+        }
+
+        .last1 {
+            background-color: grey;
+        }
+
+        .last2 {
+            background-color: green;
+        }
+
+        .last3 {
+            background-color: red;
+        }
+
+        .last4 {
+            background-color: blue;
+        }
+
+        /* Graph style */
+        #graph {
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            height: 300px;
+            position: relative;
+        }
+
+        .row {
+            width: 100%;
+            height: 2px;
+            background-color: black;
+            position: absolute;
+        }
+
+        .content {
+            margin: -9px 0 0 -35px;
+        }
+
+        .column {
+            position: absolute;
+            bottom: 0;
+            width: 15%;
+            margin-left: 10px;
+        }
+
+        .column div {
+            text-align: center;
+            margin-top: -20px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        function display_graph(){
+            $("tbody tr").each(function(index){
+                $(".column").css("height","0");
+                let cell = $(this).children("td").eq(1).text();
+                $("#column" + index).animate({height: cell}, 1500).html("<div>" + cell + "</div>");
+            });
+        }
+
+        $(document).ready(function(){
+            let values = [25, 44, 66, 89];
+            let cells = $("tr td");
+            for (let i = 1, j=0; i < cells.length; i += 3){
+                cells[i].innerHTML = values[j] + "%";
+                j++;
+            }
+
+            display_graph();
+        });
+    </script>
+</head>
+<body>
+    <div class="main">
+        <div id="left">
+            <table>
+                <thead>
+                    <th colspan="3">Data table</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Class 1</td>
+                        <td></td>
+                        <td class="last1"></td>
+                    </tr>
+                    <tr>
+                        <td>Class 2</td>
+                        <td></td>
+                        <td class="last2"></td>
+                    </tr>
+                    <tr>
+                        <td>Class 3</td>
+                        <td></td>
+                        <td class="last3"></td>
+                    </tr>
+                    <tr>
+                        <td>Class 4</td>
+                        <td></td>
+                        <td class="last4"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="display" onclick="display_graph();">Display</button>
+        </div>
+        <div id="right">
+            <div id="graph">
+                <div class="row" style="bottom: 25%;">
+                    <div class="content">25%</div>
+                </div>
+                <div class="row" style="bottom: 50%;">
+                    <div class="content">50%</div>
+                </div>
+                <div class="row" style="bottom: 75%;">
+                    <div class="content">75%</div>
+                </div>
+
+                <div class="column last1" id="column0" style="left: 0%;"></div>
+                <div class="column last2" id="column1" style="left: 25%;"></div>
+                <div class="column last3" id="column2" style="left: 50%;"></div>
+                <div class="column last4" id="column3" style="left: 75%;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
