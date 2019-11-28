@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        #container {
+            width: 750px;
+            height: 580px;
+            border: 2px solid black;
+            margin: 0 auto;
+            border-radius: 20px;
+        }
+
+        #filter {
+            list-style-type: none;
+        }
+
+        #filter li {
+            float: left;
+            font-size: 25px;
+            border-right: 2px solid black;
+            padding-right: 10px;
+            margin-right: 10px;
+        }
+
+        #filter li:last-child{
+            border-right: none;
+        }
+
+        #filter li a {
+            color: silver;
+            text-decoration: none;
+        }
+
+        #filter li a:hover {
+            color: grey;
+        }
+
+        #filter .current a{
+            color: black;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        #filter .current a:hover {
+            color: black;
+        }
+
+        #portfolio {
+            list-style-type: none;
+            width: 680px;
+            float: left;
+        }
+
+        #portfolio li {
+            width: 200px;
+            height: 120px;
+            float: left;
+            border-radius: 20px;
+            border: 1px solid black;
+            text-align: center;
+            font-weight: bold;
+            margin: 5px;
+            padding: 5px;
+        }
+        #portfolio li a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#portfolio li").each(function(){
+                $(this).css("background-color", $(this).attr("class"));
+            });
+
+            $("#filter li a").click(function(){
+                $("#filter .current").removeClass("current");
+                $(this).parent("li").addClass("current");
+
+                let selected = $(this).text().toLowerCase();
+                $("#portfolio li").fadeIn(1);
+                if (selected != "all"){
+                    $("#portfolio li").not("." + selected).fadeOut(1);
+                }
+            });
+        });
+    </script>
+    <title>Filterable portfolio</title>
+</head>
+<body>
+    <div id="container">
+        <ul id="filter">
+            <li class="current"><a href="#">All</a></li>
+            <li><a href="#">Red</a></li>
+            <li><a href="#">Green</a></li>
+            <li><a href="#">Blue</a></li>
+        </ul>
+
+        <ul id="portfolio">
+            <li class="red"><a href="#">Red 1</a></li>
+            <li class="green"><a href="#">Green 1</a></li>
+            <li class="green"><a href="#">Green 2</a></li>
+            <li class="red"><a href="#">Red 2</a></li>
+            <li class="green"><a href="#">Green 3</a></li>
+            <li class="blue"><a href="#">Blue 1</a></li>
+            <li class="blue"><a href="#">Blue 2</a></li>
+            <li class="blue"><a href="#">Blue 3</a></li>
+            <li class="green"><a href="#">Green 4</a></li>
+        </ul>
+    </div>
+</body>
+</html>
