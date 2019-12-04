@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>5 Star rating system</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .container {
+            width: 400px;
+            height: 250px;
+            margin: 50px auto;
+        }
+
+        li {
+            display: inline-block;
+            font-size: 30px;
+            padding: 10px;
+            color: lightgray;
+        }
+
+        ul {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .message {
+            font-size: 30px;
+
+        }
+
+        .hovered-star {
+            color: rgb(197, 247, 208);
+        }
+
+        .clicked-star {
+            color: green;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("li").mouseover(function () {
+                let current = $(this);
+                $("li").each(function (index) {
+                    $(this).addClass("hovered-star");
+                    if (index == current.index()) {
+                        return false;
+                    }
+                });
+            });
+            $("li").mouseleave(function () {
+                $("li").removeClass("hovered-star");
+            });
+
+            $("li").click(function () {
+                $("li").removeClass("clicked-star");
+                $(".hovered-star").addClass("clicked-star");
+                $(".message").html("You have rated " + $(".clicked-star").length + " stars!")
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <ul>
+            <li><i class="fa fa-star fa-fw"></i></li>
+            <li><i class="fa fa-star fa-fw"></i></li>
+            <li><i class="fa fa-star fa-fw"></i></li>
+            <li><i class="fa fa-star fa-fw"></i></li>
+            <li><i class="fa fa-star fa-fw"></i></li>
+        </ul>
+        <div class="message">Please provide a rating!</div>
+    </div>
+</body>
+
+</html>
