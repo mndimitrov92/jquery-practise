@@ -113,6 +113,16 @@
                 let prev_num = $(this).data("num");
                 $("#bar" + prev_num + ", #icon" + prev_num).removeClass("active");
             });
+
+            // submit button validation
+            $("input[type=submit]").click(function(){
+                let siblings = $(this).parent().children();
+                let error = do_validation(siblings);
+                if (error != 0) {
+                    alert("Fill in all the details");
+                    return false;
+                }
+            });
         });
     </script>
 </head>
