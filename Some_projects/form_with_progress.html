@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Multistep form with progress bar</title>
+    <style>
+        .container {
+            width: 520px;
+            border: 2px solid black;
+            margin: 10px auto;
+            padding: 10px;
+        }
+
+        .icon {
+            background-color: grey;
+            color: white;
+            display: inline-block;
+            padding: 12px;
+            border-radius: 50%;
+        }
+
+        .bar {
+            display: inline-block;
+            width: 200px;
+            height: 10px;
+            background-color: grey;
+            border-radius: 20px;
+        }
+
+        form div {
+            width: 300px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: silver;
+        }
+
+        .main_heading {
+            font-size: 40px;
+            color: white;
+            font-weight: bold;
+            margin: 0px;
+            margin-bottom: 10px;
+        }
+
+        input,
+        ::placeholder {
+            font-size: 20px;
+        }
+
+        input[type="submit"],
+        button {
+            height: 30px;
+            widows: 100px;
+            border: 1px solid white;
+            background: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 20px;
+        }
+
+        #personal_info,
+        #contact_info {
+            display: none;
+        }
+
+        .active.icon,
+        .active.bar {
+            background-color: greenyellow;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            // some form validation
+            function do_validation(items) {
+                let empty = 0;
+                $.each(items, function (key, item) {
+                    if ($(item).prop("tagName") == "INPUT" && item.value == "") {
+                        empty += 1;
+                    }
+                });
+                return empty;
+            }
+
+            // next button actions
+            $(".next").click(function () {
+                let next_div = $(this).parent().next().attr("id");
+                let elements = $(this).parent().children();
+                let error = do_validation(elements);
+                if (error == 0) {
+                    $(".individual").css("display", "none");
+                    $("#" + next_div).fadeIn(1000);
+
+                    let next_num = $(this).data("num");
+                    $("#bar" + next_num + ", #icon" + next_num).addClass("active");
+                } else {
+                    alert("Fill all the details")
+                }
+            });
+
+            // previos button actions
+            $(".previous").click(function (e) {
+                e.preventDefault()
+                $(".individual").css("display", "none");
+                let prev_div = $(this).parent().prev().attr("id");
+                $("#" + prev_div).fadeIn(1000);
+
+                let prev_num = $(this).data("num");
+                $("#bar" + prev_num + ", #icon" + prev_num).removeClass("active");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="progress_bar">
+            <span id="icon0" class="icon active">1</span>
+            <span id="bar1" class="bar"></span>
+            <span id="icon1" class="icon">2</span>
+            <span id="bar2" class="bar"></span>
+            <span id="icon2" class="icon">3</span>
+        </div>
+
+        <form method="post" action="">
+            <div id="login_info" class="individual">
+                <p class="main_heading">Account Details</p>
+                <input type="text" id="username" placeholder="User name" /> <br><br>
+                <input type="password" id="pwd" placeholder="Password" /><br><br>
+                <button id="btn_next" type="button" class="next" data-num="1">Next</button>
+            </div>
+
+            <div id="personal_info" class="individual">
+                <p class="main_heading">Personal Details</p>
+                <input type="text" id="first_name" placeholder="First name" /><br><br>
+                <input type="text" id="last_name" placeholder="Last name" /><br><br>
+                <button id="btn_prev" type="button" class="previous" data-num="1">Previous</button>
+                <button id="btn_next1" type="button" class="next" data-num="2">Next</button>
+            </div>
+
+            <div id="contact_info" class="individual">
+                <p class="main_heading">Contact Details</p>
+                <input type="email" id="email" placeholder="email" /><br><br>
+                <input type="tel" id="num" placeholder="Phone number" pattern="[0-9]{10}" /><br><br>
+                <button id="btn_prev1" type="button" class="previous" data-num="2">Previous</button>
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
