@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Type writing</title>
+    <script>
+        var captionLength = 0;
+        var caption = '';
+
+
+        $(document).ready(function () {
+            setInterval('cursorAnimation()', 600);
+            captionEl = $('#text_field');
+
+            $('#btn_type').click(function () {
+                testTypingEffect();
+            });
+
+            $('#btn_erase').click(function () {
+                testErasingEffect();
+            });
+        });
+
+        function testTypingEffect() {
+            caption = $('#text_box').val();
+            type();
+        }
+
+        function type() {
+            captionEl.html(caption.substr(0, captionLength++));
+            if (captionLength < caption.length + 1) {
+                setTimeout('type()', 200);
+            } else {
+                captionLength = 0;
+                caption = '';
+            }
+        }
+
+        function testErasingEffect() {
+            caption = captionEl.html();
+            captionLength = caption.length;
+            if (captionLength > 0) {
+                erase();
+            }
+        }
+
+        function erase() {
+            captionEl.html(caption.substr(0, captionLength--));
+            if (captionLength >= 0) {
+                setTimeout('erase()', 200);
+            } else {
+                captionLength = 0;
+                caption = '';
+            }
+        }
+
+        function cursorAnimation() {
+            $('#cursor').animate({
+                opacity: 0
+            }, 'fast', 'swing').animate({
+                opacity: 1
+            }, 'fast', 'swing');
+        }
+    </script>
+</head>
+
+<body>
+    <form class="container" action="">
+        <input type="text" id="text_box" placeholder="Enter your text here...">
+        <input type="button" value="Type" id="btn_type" />
+        <input type="button" value="Erase" id="btn_erase" />
+    </form>
+    <div class="text_container">
+        <span>C:/</span>
+        <span id="text_field"></span>
+        <span id="cursor">|</span>
+    </div>
+</body>
+
+</html>
