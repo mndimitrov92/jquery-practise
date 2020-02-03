@@ -40,16 +40,58 @@
         text-align: center;
         margin: 3px;
     }
+
+    .done {
+        text-decoration: line-through;
+    }
+
+    .highlighted {
+        background: coral;
+    }
+
+    .correct {
+        background: silver;
+    }
+
+    #msg {
+        color: red;
+    }
 </style>
 <script>
     var my_words = ["EGG", "MILK", "BUTTER", "JAM", "SUGAR", "SALT", "BREAD"];
     var temp_words = [];
     $(document).ready(function () {
+        $("#words").hide();
+        alert("Find the words, select the letters by pressing command/ctrl + mouse click.");
         arrangeGame()
+        $(".individual").click(function () {
+            $(this).addClass("highlighted");
+            selected_word += $(this).html();
+        });
+
+        $(document).keydown(function () {
+            selected_word = "";
+            $(".individual").removeClass("highlighted");
+        }).keyup(function () {
+            if (my_words.indexOf(selected_word) >= 0) {
+                $(".highlighted").addClass("correct");
+                $("#words p").each(function (key, item) {
+                    if (selected_word == $(item).html()) {
+                        $(this).addClass("done");
+                    }
+                    if ($(".done").length == my_words.length) {
+                        $("#words").empty();
+                        $("#words").append("<p id='msg'>Game over!</p>");
+                    }
+                });
+            }
+        });
+
     });
 
     function arrangeGame() {
         // add the words in the words box
+        $("#words").show();
         $.each(my_words, function (key, item) {
             $('#words').append("<p>" + item + "</p>");
         });
@@ -62,6 +104,11 @@
         // Place the letters of the words in the boxes
         placeCorrectLetters(my_words);
         placeCorrectLetters(temp_words);
+        $.each($(".individual"), function (key, item) {
+            if ($(item).attr("data-word") == undefined) {
+                $(this).html(random_letter());
+            }
+        });
     }
 
     function checkOccupied(word, starting, orientation) {
@@ -84,10 +131,15 @@
         }
     }
 
+    function random_letter() {
+        var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
     function placeCorrectLetters(my_arr) {
-        var positions = ['row', 'column', 'diagonal'];
+        var positions = ['row', 'column'];
         var next_letter = 0;
-        for (var i = 0; i < my_arr; i++) {
+        for (var i = 0; i < my_arr.length; i++) {
             var orientation = positions[Math.floor(Math.random() * positions.length)];
             var start = Math.floor(Math.random() * $('.individual').length);
             var my_row = $(".individual").eq(start).data("row");
@@ -121,7 +173,7 @@
                     $(".individual").eq(new_start + next_position).html(item).attr("data-word", my_arr[i]);
                     next_position += next_letter;
                 });
-            }else {
+            } else {
                 temp_words.push(my_arr[i]);
             }
         }
