@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stop watch</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+    <style>
+        #container {
+            width: 300px;
+            height: 300px;
+            margin: 30px auto;
+        }
+        #timer {
+            margin-bottom: 10px;
+        }
+        span {
+            font-size: 30px;
+        }
+
+        sub {
+            font-weight: bold;
+        }
+
+        button {
+            width: 100px;
+            height: 40px;
+            font-size: 25px;
+            border-radius: 5px;
+            border: 1px solid black;
+            margin: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        var interval, time_gap;
+        var clicked = 0;
+
+        $(document).ready(function(){
+
+            $("#btnReset").click(function(){
+                clicked = 0;
+                if (interval){
+                    clearInterval(interval);
+                }
+                displayTime(0,0,0,0);
+                $("#btnClick").html("Start");
+            });
+
+            $("#btnClick").click(function(){
+                if ($(this).html() == "Start") {
+                    $(this).html("Stop");
+                    if (clicked == 0) {
+                        update_time(0);
+                    } else {
+                        update_time(time_gap);
+                    }
+                    clicked += 1;
+                }
+                else if ($(this).html() == "Stop") {
+                    clearInterval(interval);
+                    $(this).html("Start");
+                }
+            });
+
+            function update_time(elapsed_time){
+                var start_time = Date.now();
+                interval = setInterval(function(){
+                    time_gap = Date.now() - start_time + elapsed_time;
+                    var hours = parseInt(time_gap / 1000 / 60 / 60);
+
+                    var minutes = parseInt(time_gap / 1000 / 60);
+                    if (minutes >= 60) {
+                        minutes %= 60;
+                    }
+
+                    var seconds = parseInt(time_gap / 1000);
+                    if (seconds >= 60) {
+                        seconds %= 60;
+                    }
+
+                    var milisecs = time_gap;
+                    // show the remainder when 1 second is reached
+                    if (milisecs >= 1000) {
+                        milisecs %= 1000;
+                    }
+
+                    displayTime(hours, minutes, seconds, milisecs);
+                }, 100);
+            }
+            function displayTime(h,m,s,ms){
+                $("#hour").html(addZeros(h, 2));
+                $("#mins").html(addZeros(m, 2));
+                $("#seconds").html(addZeros(s, 2));
+                $("#milisec").html(addZeros(ms, 3));
+            }
+
+            function addZeros(number, digits){
+                var myNum = new String(number);
+                return new Array(digits - myNum.length + 1).join("0") + myNum;
+            }
+        });
+    </script>
+<body>
+    <div id="container">
+        <div id="timer">
+            <span id="hour">00</span><span><sub>h</sub></span>
+            <span id="mins">00</span><span><sub>m</sub></span>
+            <span id="seconds">00</span><span><sub>s</sub></span>
+            <span id="milisec">000</span><span><sub>ms</sub></span>
+        </div>
+        <button id="btnClick">Start</button>
+        <button id="btnReset">Reset</button>
+    </div>
+</body>
+</html>
