@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Click speed test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #main {
+            width: 365px;
+            height: 400px;
+            margin: 0px auto;
+        }
+
+        button{
+            width: 80px;
+            height: 30px;
+            border: 1px solid black;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px;
+            font-size: 20px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        span {
+            font-size: 20px;
+        }
+
+        #container{
+            width: 350px;
+            height: 350px;
+            text-align: center;
+        }
+
+        .box {
+            width: 65px;
+            height: 65px;
+            background-color: #1DA277;
+            color: white;
+            font-size: 30px;
+            margin: 2px;
+            float: left;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 65px;
+            cursor: pointer;
+        }
+        #nextNum {
+            float: right;
+        }
+
+        #result, #performance {
+            font-size: 25px;
+
+        }
+        #result {
+            color: red;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            var current_num;
+            var interval, elapsed_time;
+            var clicked = 0;
+
+            $("#btnClick").click(function(){
+                if(interval){
+                    clearInterval(interval);
+                    arrangeGame();
+                }
+            });
+
+            function generate_arr(min, max){
+                var my_arr = [];
+                for (var i=min; i<=max; i++){
+                    my_arr.push(i);
+                }
+                return my_arr;
+            }
+
+            arrangeGame();
+
+            function arrangeGame(){
+                current_num = 1;
+                clicked = 0;
+                $('#container').empty();
+                $("#result,#performance").hide();
+                $("#timer,#container,#nextNum").show();
+                $("#timer").html("Timer: 0.000");
+                $("#nextNum").html("Next number: " + current_num);
+                for(var i=1; i<=25; i++){
+                    $("#container").append("<div class='box'></div>");
+                }
+
+                var num_arr1 = generate_arr(1, 25);
+                var num_arr2 = generate_arr(26, 50);
+
+                // add random numbers to the boxes
+                $(".box").each(function(key, item){
+                    $(item).html(num_arr1.splice(Math.floor(Math.random()*num_arr1.length), 1));
+                });
+
+                $('.box').click(function(){
+                    // start the timer on the first click
+                    if (clicked == 0){
+                        var start_time = Date.now();
+                        interval = setInterval(function(){
+                            elapsed_time = Date.now() - start_time;
+                            $("#timer").html("Timer: " + (elapsed_time /1000).toFixed(3));
+                        }, 100);
+                        clicked ++;
+                    }
+
+                    // place the numbers in the boxes
+                    if ($(this).html() == current_num){
+                        $("#nextNum").html("Next number: " + (current_num+1));
+                        $(this).html(num_arr2.splice(Math.floor(Math.random()*num_arr2.length), 1));
+                        current_num += 1
+                        $(this).css("background", "#0E9368");
+                        if (current_num > 26){
+                            $(this).css("background", "white");
+                        }
+
+                        // stop the timer
+                        if (current_num == 51){
+                            clearInterval(interval);
+                            $("#timer,#container,#nextNum").hide();
+                            $("#result,#performance").show();
+                            $("#result").html("You took " + (elapsed_time/1000).toFixed(3) + " seconds.");
+
+
+                        }
+                    }
+                });
+
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="main">
+        <button id="btnClick">Restart</button> <br/>
+        <span id="result"></span>
+        <div id="performance">
+            Performance in seconds <br/>
+            0 - 20: Lying<br/>
+            21 - 30: Impossible<br/>
+            31 - 40: Expert<br/>
+            41 - 50: Normal<br/>
+            51 - 60: Not bad<br/>
+            61 and above: Need to improve<br/>
+        </div>
+        <span id="timer">Timer: 0.00</span>
+        <span id="nextNum">Next number: 1</span>
+        <div id="container"></div>
+    </div>
+
+</body>
+</html>
